@@ -62,6 +62,59 @@ const JAPANESE_KATAKANA = [
     { name: 'WA', print: 'ワ', trans: 'wa' }, { name: 'WO', print: 'ヲ', trans: 'wo' }, { name: 'N', print: 'ン', trans: 'n' }
 ];
 
+const JAPANESE_KANJI = [
+    { name: 'BİR (Ichi / Itsu)', print: '一', trans: 'Anlamı: Bir (Okunuşu: İçi)' },
+    { name: 'İKİ (Ni)', print: '二', trans: 'Anlamı: İki (Okunuşu: Ni)' },
+    { name: 'ÜÇ (San)', print: '三', trans: 'Anlamı: Üç (Okunuşu: San)' },
+    { name: 'DÖRT (Shi / Yon)', print: '四', trans: 'Anlamı: Dört (Okunuşu: Şi / Yon)' },
+    { name: 'BEŞ (Go)', print: '五', trans: 'Anlamı: Beş (Okunuşu: Go)' },
+    { name: 'ALTI (Roku)', print: '六', trans: 'Anlamı: Altı (Okunuşu: Roku)' },
+    { name: 'YEDİ (Shichi / Nana)', print: '七', trans: 'Anlamı: Yedi (Okunuşu: Şiçi / Nana)' },
+    { name: 'SEKİZ (Hachi)', print: '八', trans: 'Anlamı: Sekiz (Okunuşu: Haçi)' },
+    { name: 'DOKUZ (Kyuu / Ku)', print: '九', trans: 'Anlamı: Dokuz (Okunuşu: Kyuu / Ku)' },
+    { name: 'ON (Juu)', print: '十', trans: 'Anlamı: On (Okunuşu: Juu)' },
+    { name: 'GÜNEŞ / GÜN (Nichi / Hi)', print: '日', trans: 'Anlamı: Güneş / Gün (Okunuşu: Niçi / Hi)' },
+    { name: 'AY (Getsu / Tsuki)', print: '月', trans: 'Anlamı: Ay (Okunuşu: Getsu / Tsuki)' },
+    { name: 'ATEŞ (Ka / Hi)', print: '火', trans: 'Anlamı: Ateş (Okunuşu: Ka / Hi)' },
+    { name: 'SU (Sui / Mizu)', print: '水', trans: 'Anlamı: Su (Okunuşu: Sui / Mizu)' },
+    { name: 'AĞAÇ (Moku / Ki)', print: '木', trans: 'Anlamı: Ağaç (Okunuşu: Moku / Ki)' },
+    { name: 'ALTIN / PARA (Kin / Kane)', print: '金', trans: 'Anlamı: Altın / Para (Okunuşu: Kin / Kane)' },
+    { name: 'TOPRAK (Do / Tsuchi)', print: '土', trans: 'Anlamı: Toprak (Okunuşu: Do / Tsuchi)' },
+    { name: 'DAĞ (San / Yama)', print: '山', trans: 'Anlamı: Dağ (Okunuşu: San / Yama)' },
+    { name: 'NEHİR (Sen / Kawa)', print: '川', trans: 'Anlamı: Nehir (Okunuşu: Sen / Kawa)' },
+    { name: 'TARLA (Den / Ta)', print: '田', trans: 'Anlamı: Çeltik Tarlası (Okunuşu: Den / Ta)' },
+    { name: 'İNSAN (Jin / Hito)', print: '人', trans: 'Anlamı: İnsan / Kişi (Okunuşu: Cin / Hito)' },
+    { name: 'ÇOCUK (Shi / Ko)', print: '子', trans: 'Anlamı: Çocuk (Okunuşu: Şi / Ko)' },
+    { name: 'KADIN (Jo / Onna)', print: '女', trans: 'Anlamı: Kadın (Okunuşu: Co / Onna)' },
+    { name: 'ERKEK (Dan / Otoko)', print: '男', trans: 'Anlamı: Erkek (Okunuşu: Dan / Otoko)' },
+    { name: 'ÖNCE / GELECEK (Sen / Saki)', print: '先', trans: 'Anlamı: Önce / Gelecek (Okunuşu: Sen / Saki)' },
+    { name: 'YAŞAM / DOĞUŞ (Sei / Umare)', print: '生', trans: 'Anlamı: Yaşam / Doğuş (Okunuşu: Sey / Umare)' },
+    { name: 'ÖĞRENİM / OKUL (Gaku / Mana-bu)', print: '学', trans: 'Anlamı: Öğrenim / Çalışma (Okunuşu: Gaku / Manabu)' },
+    { name: 'OKUL (Kou)', print: '校', trans: 'Anlamı: Okul (Okunuşu: Koo)' },
+    { name: 'KİTAP / KÖKEN (Hon / Moto)', print: '本', trans: 'Anlamı: Kitap / Köken (Okunuşu: Hon / Moto)' },
+    { name: 'ÜLKE (Koku / Kuni)', print: '国', trans: 'Anlamı: Ülke (Okunuşu: Koku / Kuni)' },
+    { name: 'ÜST (Jou / Ue)', print: '上', trans: 'Anlamı: Üst / Yukarı (Okunuşu: Coo / Ue)' },
+    { name: 'ALT (Ka / Shita)', print: '下', trans: 'Anlamı: Alt / Aşağı (Okunuşu: Ka / Şita)' },
+    { name: 'ORTA / İÇ (Chuu / Naka)', print: '中', trans: 'Anlamı: Orta / İç (Okunuşu: Çuu / Naka)' },
+    { name: 'SOL (Sa / Hidari)', print: '左', trans: 'Anlamı: Sol (Okunuşu: Sa / Hidari)' },
+    { name: 'SAĞ (U / Migi)', print: '右', trans: 'Anlamı: Sağ (Okunuşu: U / Migi)' },
+    { name: 'BÜYÜK (Dai / Oo-kii)', print: '大', trans: 'Anlamı: Büyük (Okunuşu: Day / Ookii)' },
+    { name: 'KÜÇÜK (Shou / Chiisai)', print: '小', trans: 'Anlamı: Küçük (Okunuşu: Şoo / Çiisai)' },
+    { name: 'YEN / DAİRE (En / Maru)', print: '円', trans: 'Anlamı: Yen / Daire (Okunuşu: En / Maru)' },
+    { name: 'YIL (Nen / Toshi)', print: '年', trans: 'Anlamı: Yıl (Okunuşu: Nen / Toşi)' },
+    { name: 'AĞAZ (Kou / Kuchi)', print: '口', trans: 'Anlamı: Ağız (Okunuşu: Koo / Kuçi)' },
+    { name: 'GÖZ (Moku / Me)', print: '目', trans: 'Anlamı: Göz (Okunuşu: Moku / Me)' },
+    { name: 'KULAK (Ji / Mimi)', print: '耳', trans: 'Anlamı: Kulak (Okunuşu: Ci / Mimi)' },
+    { name: 'EL (Shu / Te)', print: '手', trans: 'Anlamı: El (Okunuşu: Şu / Te)' },
+    { name: 'AYAK (Soku / Ashi)', print: '足', trans: 'Anlamı: Ayak (Okunuşu: Soku / Aşi)' },
+    { name: 'GÖRMEK (Ken / Mi-ru)', print: '見', trans: 'Anlamı: Görmek / Bakmak (Okunuşu: Ken / Miru)' },
+    { name: 'GİTMEK (Kou / I-ku)', print: '行', trans: 'Anlamı: Gitmek (Okunuşu: Koo / Iku)' },
+    { name: 'GELMEK (Rai / Ku-ru)', print: '来', trans: 'Anlamı: Gelmek (Okunuşu: Ray / Kuru)' },
+    { name: 'ÇIKMAK (Shutsu / De-ru)', print: '出', trans: 'Anlamı: Çıkmak (Okunuşu: Şutsu / Deru)' },
+    { name: 'GİRMEK (Nyuu / Hai-ru)', print: '入', trans: 'Anlamı: Girmek (Okunuşu: Nyuu / Hayru)' },
+    { name: 'DAKİKA / ANLAMAK (Bun / Wa-karu)', print: '分', trans: 'Anlamı: Dakika / Anlamak (Okunuşu: Bun / Wakaru)' }
+];
+
 // --- CONVERSATION PHRASES DATABASE (INITIALIZED WITH DEFAULT VALUES) ---
 
 const DEFAULT_CATEGORIES = [
@@ -177,7 +230,9 @@ function getActiveAlphabetList() {
     if (state.currentLanguage === 'hebrew') {
         return HEBREW_ALPHABET;
     } else {
-        return state.currentJapaneseSub === 'hiragana' ? JAPANESE_HIRAGANA : JAPANESE_KATAKANA;
+        if (state.currentJapaneseSub === 'hiragana') return JAPANESE_HIRAGANA;
+        if (state.currentJapaneseSub === 'katakana') return JAPANESE_KATAKANA;
+        return JAPANESE_KANJI;
     }
 }
 
@@ -442,7 +497,8 @@ function renderSubLanguageOptions() {
     } else {
         const options = [
             { id: 'hiragana', label: 'Hiragana' },
-            { id: 'katakana', label: 'Katakana' }
+            { id: 'katakana', label: 'Katakana' },
+            { id: 'kanji', label: 'Kanji (50 Temel)' }
         ];
         
         options.forEach(opt => {
