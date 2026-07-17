@@ -188,6 +188,16 @@ function speakText(text, langCode) {
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = langCode;
         utterance.rate = 0.85; // Slightly slower for language learning
+        
+        // Find best match voice if available
+        if (window.speechSynthesis.getVoices) {
+            const voices = window.speechSynthesis.getVoices();
+            const voice = voices.find(v => v.lang.startsWith(langCode.substring(0, 2)));
+            if (voice) {
+                utterance.voice = voice;
+            }
+        }
+        
         window.speechSynthesis.speak(utterance);
     } else {
         console.warn('Speech synthesis is not supported on this browser.');
@@ -468,6 +478,7 @@ function loadActiveAlphabetInViews() {
             document.querySelectorAll('.grid-item').forEach(c => c.classList.remove('active'));
             cell.classList.add('active');
             loadWritingLetter();
+            speakText(item.print, getSpeakLangCode()); // Play pronunciation automatically when clicked
         });
         
         grid.appendChild(cell);
@@ -551,6 +562,21 @@ function initializeWritingCanvas() {
     brushSize.addEventListener('input', (e) => {
         state.drawSize = e.target.value;
         brushSizeVal.textContent = `${state.drawSize}px`;
+    });
+    
+    // Chalkboard height adjustment slider
+    const boardHeightSlider = document.getElementById('board-height-slider');
+    const boardHeightVal = document.getElementById('board-height-val');
+    const chalkboardContainer = document.querySelector('.chalkboard-container');
+    
+    boardHeightSlider.addEventListener('input', (e) => {
+        const val = e.target.value;
+        boardHeightVal.textContent = `${val}px`;
+        chalkboardContainer.style.height = `${val}px`;
+        chalkboardContainer.style.minHeight = `${val}px`;
+        
+        // Resize canvas while preserving drawn content
+        resizeCanvas(writingCanvas, canvasContext);
     });
     
     canvasClear.addEventListener('click', () => {
@@ -704,8 +730,28 @@ function setupRulerDrag(rulerEl, inputEl, callback) {
 function resizeCanvas(canvas, context) {
     if (!canvas) return;
     const rect = canvas.parentElement.getBoundingClientRect();
+    
+    // Check if we need to preserve existing drawings
+    let tempImage = null;
+    if (canvas.width > 0 && canvas.height > 0) {
+        try {
+            tempImage = context.getImageData(0, 0, canvas.width, canvas.height);
+        } catch (e) {
+            console.warn("Could not save canvas drawing before resize:", e);
+        }
+    }
+    
     canvas.width = rect.width - 20; // accounting for borders
     canvas.height = rect.height - 20;
+    
+    // Restore drawing
+    if (tempImage) {
+        try {
+            context.putImageData(tempImage, 0, 0);
+        } catch (e) {
+            console.warn("Could not restore canvas drawing after resize:", e);
+        }
+    }
 }
 
 function clearCanvas(canvas, context) {
@@ -751,10 +797,11 @@ function startDrawing(e) {
     context.lineJoin = 'round';
     
     if (state.drawMode === 'eraser') {
-        context.strokeStyle = '#143d30'; // same as board bg
+        context.globalCompositeOperation = 'destination-out';
+        context.lineWidth = state.drawSize * 3; // Make eraser larger than pencil size
         context.shadowBlur = 0;
-        context.lineWidth = state.drawSize * 2.5;
     } else {
+        context.globalCompositeOperation = 'source-over';
         context.strokeStyle = state.drawColor;
         context.lineWidth = state.drawSize;
         // Shadow creates the chalky dust feel
@@ -857,10 +904,25 @@ function loadWritingLetter() {
     }
     
     // Highlight grid index
-    document.querySelectorAll('.grid-item').forEach((cell, idx) => {
+    const gridItems = document.querySelectorAll('.grid-item');
+    gridItems.forEach((cell, idx) => {
         if (idx === state.writeIndex) {
             cell.classList.add('active');
-            cell.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            
+            // Container-bounded scrolling that never jumps the window viewport scroll
+            const gridContainer = document.getElementById('write-letter-grid');
+            if (gridContainer && cell) {
+                const containerTop = gridContainer.scrollTop;
+                const containerBottom = containerTop + gridContainer.clientHeight;
+                const elemTop = cell.offsetTop - gridContainer.offsetTop;
+                const elemBottom = elemTop + cell.clientHeight;
+                
+                if (elemTop < containerTop) {
+                    gridContainer.scrollTop = elemTop;
+                } else if (elemBottom > containerBottom) {
+                    gridContainer.scrollTop = elemBottom - gridContainer.clientHeight;
+                }
+            }
         } else {
             cell.classList.remove('active');
         }
@@ -876,6 +938,11 @@ function navigateWritingPrev() {
     }
     loadWritingLetter();
     clearCanvas(writingCanvas, canvasContext);
+    
+    // Play pronunciation automatically
+    if (list[state.writeIndex]) {
+        speakText(list[state.writeIndex].print, getSpeakLangCode());
+    }
 }
 
 function navigateWritingNext() {
@@ -887,6 +954,11 @@ function navigateWritingNext() {
     }
     loadWritingLetter();
     clearCanvas(writingCanvas, canvasContext);
+    
+    // Play pronunciation automatically
+    if (list[state.writeIndex]) {
+        speakText(list[state.writeIndex].print, getSpeakLangCode());
+    }
 }
 
 // --- TAB 2: FLASHCARDS ---
