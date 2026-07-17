@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>İbranice & Japonca Öğrenme Platformu</title>
+    <!-- Google Fonts: Outfit (UI), Noto Sans JP (Japanese), Assistant (Hebrew) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- App Container -->
+    <div class="app-container">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <i class="fa-solid fa-graduation-cap brand-icon"></i>
+                <div class="brand-text">
+                    <h1>LingoStudy</h1>
+                    <span>İbranice & Japonca</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" data-tab="tab-writing">
+                    <i class="fa-solid fa-chalkboard"></i>
+                    <span>Alfabe Çalışma</span>
+                </button>
+                <button class="nav-btn" data-tab="tab-flashcards">
+                    <i class="fa-solid fa-clone"></i>
+                    <span>Flash Kartlar</span>
+                </button>
+                <button class="nav-btn" data-tab="tab-phrases">
+                    <i class="fa-solid fa-comments"></i>
+                    <span>Günlük Konuşma</span>
+                </button>
+                <button class="nav-btn" data-tab="tab-tests">
+                    <i class="fa-solid fa-vial"></i>
+                    <span>Test Alanı</span>
+                </button>
+            </nav>
+            
+            <div class="sidebar-theme">
+                <div class="theme-title"><i class="fa-solid fa-palette"></i> Tema Ayarları</div>
+                <div class="theme-colors">
+                    <div class="color-dot active" data-color="#3b82f6" style="background-color: #3b82f6;" title="Mavi"></div>
+                    <div class="color-dot" data-color="#10b981" style="background-color: #10b981;" title="Zümrüt"></div>
+                    <div class="color-dot" data-color="#8b5cf6" style="background-color: #8b5cf6;" title="Mor"></div>
+                    <div class="color-dot" data-color="#ec4899" style="background-color: #ec4899;" title="Pembe"></div>
+                    <div class="color-dot" data-color="#f59e0b" style="background-color: #f59e0b;" title="Turuncu"></div>
+                    <input type="color" id="custom-color-picker" class="custom-color-picker" title="Özel Renk Seç" value="#3b82f6">
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Header -->
+            <header class="main-header">
+                <div class="header-left">
+                    <h2 id="current-section-title">Alfabe Çalışma Alanı</h2>
+                </div>
+                <div class="header-right">
+                    <!-- Language Selection Toggle -->
+                    <div class="lang-selector">
+                        <button class="lang-btn active" data-lang="hebrew">
+                            <span class="flag">🇮🇱</span> İbranice
+                        </button>
+                        <button class="lang-btn" data-lang="japanese">
+                            <span class="flag">🇯🇵</span> Japonca
+                        </button>
+                    </div>
+                    
+                    <!-- Sub-Language Options (dynamic based on selection) -->
+                    <div id="sub-lang-container" class="sub-lang-container">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tab Content Screens -->
+            <div class="workspace">
+
+                <!-- 1. ALFABE YAZMA ÇALIŞMA ALANI -->
+                <section id="tab-writing" class="tab-screen active">
+                    <div class="writing-layout">
+                        <!-- Left Panel: Reference Card -->
+                        <div class="ref-panel">
+                            <div class="glass-card ref-card">
+                                <div class="ref-header">
+                                    <span class="ref-index" id="write-letter-index">1</span>
+                                    <span class="ref-name" id="write-letter-name">ALEF</span>
+                                </div>
+                                
+                                <!-- Display Letter(s) -->
+                                <div class="ref-display" id="write-letter-display-box">
+                                    <!-- Dynamic layout based on language -->
+                                </div>
+
+                                <div class="ref-pronunciation">
+                                    <div class="label">Türkçe Okunuşu</div>
+                                    <div class="value" id="write-letter-trans">Alef / Sessiz Harf</div>
+                                </div>
+
+                                <div class="ref-numerical" id="write-letter-numeric-box">
+                                    <div class="label">Sayısal Değeri (Gematria)</div>
+                                    <div class="value" id="write-letter-numeric">1</div>
+                                </div>
+                                
+                                <div class="ref-speech">
+                                    <button class="action-btn text-speech-btn" id="write-letter-speak">
+                                        <i class="fa-solid fa-volume-high"></i> Telaffuz Et
+                                    </button>
+                                </div>
+
+                                <div class="ref-navigator">
+                                    <button class="nav-arrow-btn" id="write-prev-btn"><i class="fa-solid fa-chevron-left"></i> Önceki</button>
+                                    <button class="nav-arrow-btn" id="write-next-btn">Sonraki <i class="fa-solid fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+
+                            <!-- Alphabet Quick Select Grid -->
+                            <div class="glass-card grid-card">
+                                <h3>Karakter Seçimi</h3>
+                                <div class="letter-grid" id="write-letter-grid">
+                                    <!-- Dynamic character grid -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Chalkboard Writing Area -->
+                        <div class="canvas-panel">
+                            <div class="chalkboard-container">
+                                <!-- Horizontal Rulers (Adjustable guidelines) -->
+                                <div class="chalkboard-rulers" id="chalkboard-rulers-wrapper">
+                                    <div class="ruler-line" id="ruler-1" style="top: 30%;">
+                                        <div class="ruler-handle" title="Cetveli Aşağı/Yukarı Taşı"><i class="fa-solid fa-arrows-up-down"></i></div>
+                                    </div>
+                                    <div class="ruler-line" id="ruler-2" style="top: 50%;">
+                                        <div class="ruler-handle" title="Cetveli Aşağı/Yukarı Taşı"><i class="fa-solid fa-arrows-up-down"></i></div>
+                                    </div>
+                                    <div class="ruler-line" id="ruler-3" style="top: 70%;">
+                                        <div class="ruler-handle" title="Cetveli Aşağı/Yukarı Taşı"><i class="fa-solid fa-arrows-up-down"></i></div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Canvas overlay to trace character faintly -->
+                                <div class="trace-watermark-container" id="trace-watermark">
+                                    <!-- Watermark character rendered faintly behind -->
+                                </div>
+
+                                <canvas id="writing-canvas" class="writing-canvas"></canvas>
+                            </div>
+
+                            <div class="canvas-toolbar">
+                                <div class="tool-group">
+                                    <button class="tool-btn active" id="tool-pencil" title="Tebeşir Modu">
+                                        <i class="fa-solid fa-pen-nib"></i> Tebeşir
+                                    </button>
+                                    <button class="tool-btn" id="tool-eraser" title="Silgi Modu">
+                                        <i class="fa-solid fa-eraser"></i> Silgi
+                                    </button>
+                                    <div class="brush-size-container">
+                                        <label for="brush-size">Boyut:</label>
+                                        <input type="range" id="brush-size" min="2" max="20" value="5">
+                                        <span id="brush-size-val">5px</span>
+                                    </div>
+                                </div>
+                                <div class="tool-group">
+                                    <button class="action-btn text-speech-btn" id="toggle-trace-btn" title="Harf İzini Göster/Gizle">
+                                        <i class="fa-solid fa-eye-slash"></i> Harf İzini Göster
+                                    </button>
+                                    <button class="action-btn btn-secondary" id="canvas-undo" title="Son Çizgiyi Geri Al">
+                                        <i class="fa-solid fa-rotate-left"></i> Geri Al
+                                    </button>
+                                    <button class="action-btn btn-danger" id="canvas-clear" title="Tahtayı Temizle">
+                                        <i class="fa-solid fa-trash-can"></i> Temizle
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="ruler-controls glass-card">
+                                <h4><i class="fa-solid fa-ruler-horizontal"></i> Cetvel (Kılavuz Çizgi) Ayarları</h4>
+                                <div class="ruler-sliders">
+                                    <div class="slider-row">
+                                        <label>Üst Çizgi:</label>
+                                        <input type="range" id="ruler-1-val" min="10" max="90" value="30">
+                                        <span id="ruler-1-lbl">30%</span>
+                                    </div>
+                                    <div class="slider-row">
+                                        <label>Orta Çizgi:</label>
+                                        <input type="range" id="ruler-2-val" min="10" max="90" value="50">
+                                        <span id="ruler-2-lbl">50%</span>
+                                    </div>
+                                    <div class="slider-row">
+                                        <label>Alt Çizgi:</label>
+                                        <input type="range" id="ruler-3-val" min="10" max="90" value="70">
+                                        <span id="ruler-3-lbl">70%</span>
+                                    </div>
+                                </div>
+                                <div class="ruler-toggles">
+                                    <button class="action-btn btn-small" id="toggle-rulers-btn"><i class="fa-solid fa-eye"></i> Cetvelleri Kapat</button>
+                                    <button class="action-btn btn-small btn-secondary" id="reset-rulers-btn"><i class="fa-solid fa-arrows-rotate"></i> Sıfırla</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. FLASH KARTLAR BÖLÜMÜ -->
+                <section id="tab-flashcards" class="tab-screen">
+                    <div class="flashcards-container">
+                        <!-- Configuration controls -->
+                        <div class="glass-card controls-card">
+                            <div class="control-row">
+                                <div class="control-group">
+                                    <label for="flashcard-time">Otomatik Çevirme Süresi (Saniye):</label>
+                                    <select id="flashcard-time">
+                                        <option value="0">Manuel (Kendi Çevirsin)</option>
+                                        <option value="1">1 Saniye</option>
+                                        <option value="3" selected>3 Saniye</option>
+                                        <option value="5">5 Saniye</option>
+                                        <option value="7">7 Saniye</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label>Öğrenme Modu:</label>
+                                    <div class="custom-radio-group">
+                                        <button class="radio-btn active" data-mode="ordered">Sıralı</button>
+                                        <button class="radio-btn" data-mode="random">Karışık (Rastgele)</button>
+                                    </div>
+                                </div>
+                                <button class="action-btn text-speech-btn" id="flash-restart-btn">
+                                    <i class="fa-solid fa-arrows-rotate"></i> Sıfırla
+                                </button>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-label">Kart: <span id="flash-card-current">1</span> / <span id="flash-card-total">0</span></div>
+                                <div class="progress-track">
+                                    <div class="progress-fill" id="flash-card-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Display -->
+                        <div class="flashcard-wrapper">
+                            <div class="flash-card" id="flash-card-element">
+                                <!-- Front Face -->
+                                <div class="card-face card-front">
+                                    <div class="card-lang-indicator" id="flash-front-lang">İbranice</div>
+                                    <div class="card-main-symbol" id="flash-front-symbol">א</div>
+                                    <div class="card-secondary-symbol" id="flash-front-secondary">El Yazısı: lc</div>
+                                    <div class="card-hint">Kartı çevirmek için tıkla</div>
+                                </div>
+                                <!-- Back Face -->
+                                <div class="card-face card-back">
+                                    <div class="card-lang-indicator" id="flash-back-lang">İbranice</div>
+                                    <div class="card-main-name" id="flash-back-name">ALEF</div>
+                                    <div class="card-detail-group">
+                                        <div class="detail-row">
+                                            <span class="label">Türkçe Okunuş:</span>
+                                            <span class="value" id="flash-back-trans">Alef</span>
+                                        </div>
+                                        <div class="detail-row" id="flash-back-extra-row">
+                                            <span class="label">Sayısal Değer:</span>
+                                            <span class="value" id="flash-back-extra">1</span>
+                                        </div>
+                                    </div>
+                                    <button class="speak-circle-btn" id="flash-back-speak" stop-propagation>
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Automatic timer overlay -->
+                            <div class="timer-overlay" id="timer-bar" style="width: 0%;"></div>
+                        </div>
+
+                        <!-- Navigation Controls -->
+                        <div class="flashcard-nav">
+                            <button class="nav-control-btn" id="flash-prev"><i class="fa-solid fa-chevron-left"></i> Önceki Kart</button>
+                            <button class="nav-control-btn btn-secondary" id="flash-flip"><i class="fa-solid fa-rotate"></i> Kartı Çevir</button>
+                            <button class="nav-control-btn" id="flash-next">Sonraki Kart <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. GÜNLÜK KONUŞMA KARTLARI -->
+                <section id="tab-phrases" class="tab-screen">
+                    <div class="phrases-layout">
+                        <!-- Sidebar: Categories -->
+                        <aside class="phrases-sidebar glass-card">
+                            <div class="phrases-sidebar-header">
+                                <h3>Kategoriler</h3>
+                                <button class="action-btn btn-small" id="add-category-btn" title="Yeni Kategori Ekle">
+                                    <i class="fa-solid fa-plus"></i> Kategori Ekle
+                                </button>
+                            </div>
+                            <div class="category-list" id="category-list-wrapper">
+                                <!-- Dynamic category list -->
+                            </div>
+                        </aside>
+
+                        <!-- Content Area: Phrase List -->
+                        <div class="phrases-content">
+                            <div class="phrases-header glass-card">
+                                <div class="category-info">
+                                    <h3 id="current-category-title">Tanışma & Selamlaşma</h3>
+                                    <span class="category-count" id="current-category-count">0 Cümle</span>
+                                </div>
+                                <button class="action-btn text-speech-btn" id="add-phrase-btn">
+                                    <i class="fa-solid fa-plus"></i> Yeni Kart Ekle
+                                </button>
+                            </div>
+
+                            <div class="phrases-grid" id="phrases-grid-wrapper">
+                                <!-- Dynamic phrase cards -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. TEST ALANI -->
+                <section id="tab-tests" class="tab-screen">
+                    <!-- Test Selector Menu -->
+                    <div class="tests-menu" id="tests-menu">
+                        <div class="glass-card test-card" data-test="matching">
+                            <div class="test-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+                            <h3>Harf Eşleştirme</h3>
+                            <p>Harfleri doğru Türkçe okunuşları ve isimleriyle sürükleyip veya sırayla tıklayarak eşleştirin.</p>
+                            <button class="action-btn text-speech-btn">Testi Başlat</button>
+                        </div>
+
+                        <div class="glass-card test-card" data-test="quiz">
+                            <div class="test-icon"><i class="fa-solid fa-circle-question"></i></div>
+                            <h3>Çoktan Seçmeli Test</h3>
+                            <p>Önünüze gelen harf için sunulan 4 farklı Türkçe okunuş seçeneğinden doğrusunu bulun.</p>
+                            <button class="action-btn text-speech-btn">Testi Başlat</button>
+                        </div>
+
+                        <div class="glass-card test-card" data-test="writing-test">
+                            <div class="test-icon"><i class="fa-solid fa-pencil"></i></div>
+                            <h3>3 Saniyelik Yazım Testi</h3>
+                            <p>Harf 3 saniye görünür, sonra gizlenir. Harfi hem klavye ile yazıp hem de yeşil tahtada çizmeniz istenir.</p>
+                            <button class="action-btn text-speech-btn">Testi Başlat</button>
+                        </div>
+                    </div>
+
+                    <!-- TEST 1: HARF EŞLEŞTİRME (MATCHING) -->
+                    <div class="test-workspace hidden" id="test-matching">
+                        <div class="test-header glass-card">
+                            <button class="back-to-menu-btn"><i class="fa-solid fa-arrow-left"></i> Test Listesine Dön</button>
+                            <h3>Harf Eşleştirme Testi</h3>
+                            <div class="score-display">Puan: <span id="matching-score">0</span> / <span id="matching-total">0</span></div>
+                        </div>
+                        <div class="matching-game-container glass-card">
+                            <p class="test-instructions">Sol sütundaki karakterleri sağ sütundaki doğru okunuşlarıyla eşleştirmek için tıklayın.</p>
+                            <div class="matching-columns">
+                                <div class="matching-column" id="match-left-column">
+                                    <!-- Characters -->
+                                </div>
+                                <div class="matching-column" id="match-right-column">
+                                    <!-- Meanings/Transliterations -->
+                                </div>
+                            </div>
+                            <div class="test-controls">
+                                <button class="action-btn text-speech-btn" id="match-refresh-btn"><i class="fa-solid fa-arrows-rotate"></i> Yeni Karıştır</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TEST 2: ÇOKTAN SEÇMELİ TEST (QUIZ) -->
+                    <div class="test-workspace hidden" id="test-quiz">
+                        <div class="test-header glass-card">
+                            <button class="back-to-menu-btn"><i class="fa-solid fa-arrow-left"></i> Test Listesine Dön</button>
+                            <h3>Çoktan Seçmeli Test</h3>
+                            <div class="score-display">Soru: <span id="quiz-question-current">1</span> / <span id="quiz-question-total">10</span> | Doğru: <span id="quiz-correct-count">0</span></div>
+                        </div>
+                        <div class="quiz-question-container glass-card">
+                            <div class="quiz-visual-box" id="quiz-character-box">
+                                <!-- Dynamic character -->
+                            </div>
+                            <div class="quiz-instructions">Yukarıdaki karakterin doğru Türkçe okunuşunu seçin:</div>
+                            <div class="quiz-options-grid" id="quiz-options-wrapper">
+                                <!-- 4 options buttons -->
+                            </div>
+                            <div class="quiz-feedback hidden" id="quiz-feedback-box">
+                                <div class="feedback-icon"><i class="fa-solid"></i></div>
+                                <div class="feedback-text">Tebrikler, doğru!</div>
+                            </div>
+                            <div class="test-controls hidden" id="quiz-controls-box">
+                                <button class="action-btn text-speech-btn" id="quiz-next-btn">Sonraki Soru <i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TEST 3: 3 SANİYELİK YAZIM TESTİ (WRITING TEST) -->
+                    <div class="test-workspace hidden" id="test-writing-test">
+                        <div class="test-header glass-card">
+                            <button class="back-to-menu-btn"><i class="fa-solid fa-arrow-left"></i> Test Listesine Dön</button>
+                            <h3>3 Saniyelik Yazım Testi (Klavye + Kalem)</h3>
+                            <div class="score-display">Doğru: <span id="write-test-score">0</span> / <span id="write-test-total">0</span></div>
+                        </div>
+                        <div class="writing-test-container">
+                            <!-- Show area & countdown -->
+                            <div class="writing-test-main glass-card">
+                                <div class="write-test-header">
+                                    <div class="countdown-bar-container">
+                                        <div class="countdown-bar" id="write-test-countdown" style="width: 100%"></div>
+                                    </div>
+                                    <div class="countdown-text" id="write-test-timer-lbl">Kalan Süre: 3s</div>
+                                </div>
+
+                                <div class="write-test-question-box">
+                                    <div class="flash-prompt" id="write-test-prompt-character">א</div>
+                                    <div class="hidden-prompt hidden" id="write-test-hidden-character">
+                                        <i class="fa-solid fa-question"></i>
+                                        <p>Harf gizlendi! Şimdi klavye ile okunuşunu yazın ve yeşil tahtaya harfi çizin.</p>
+                                    </div>
+                                </div>
+
+                                <!-- Keyboard input -->
+                                <div class="write-test-input-group">
+                                    <label for="write-test-text-input">Harfin Türkçe Okunuşu (Klavye):</label>
+                                    <input type="text" id="write-test-text-input" placeholder="Okunuşunu buraya yazın..." autocomplete="off" disabled>
+                                </div>
+
+                                <div class="write-test-controls-row">
+                                    <button class="action-btn text-speech-btn" id="write-test-start-q" style="width: 100%;">Sıradaki Harfi Göster (3 Saniye)</button>
+                                    <button class="action-btn btn-secondary hidden" id="write-test-reveal-btn" style="width: 100%;">Cevabı Göster</button>
+                                </div>
+
+                                <!-- Results comparison after reveal -->
+                                <div class="write-test-comparison hidden" id="write-test-comp-box">
+                                    <div class="comp-item">
+                                        <div class="lbl">Doğru Harf:</div>
+                                        <div class="val large-char" id="comp-correct-symbol">א</div>
+                                    </div>
+                                    <div class="comp-item">
+                                        <div class="lbl">Doğru Okunuş:</div>
+                                        <div class="val" id="comp-correct-name">ALEF (Alef)</div>
+                                    </div>
+                                    <div class="comp-item">
+                                        <div class="lbl">Sizin Klavye Girişiniz:</div>
+                                        <div class="val" id="comp-user-name">alef</div>
+                                    </div>
+                                    <div class="comp-grading">
+                                        <div class="lbl">Çiziminiz ve klavye girişiniz doğru mu?</div>
+                                        <div class="btn-group">
+                                            <button class="action-btn btn-success" id="btn-grade-correct"><i class="fa-solid fa-check"></i> Doğru</button>
+                                            <button class="action-btn btn-danger" id="btn-grade-incorrect"><i class="fa-solid fa-xmark"></i> Yanlış</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Blackboard Drawing Canvas for Test -->
+                            <div class="writing-test-canvas-panel">
+                                <div class="test-chalkboard-container">
+                                    <!-- Horizontal Rulers for Test Blackboard -->
+                                    <div class="chalkboard-rulers" id="test-chalkboard-rulers-wrapper">
+                                        <div class="ruler-line" id="test-ruler-1" style="top: 30%;"></div>
+                                        <div class="ruler-line" id="test-ruler-2" style="top: 50%;"></div>
+                                        <div class="ruler-line" id="test-ruler-3" style="top: 70%;"></div>
+                                    </div>
+                                    <canvas id="test-writing-canvas" class="writing-canvas"></canvas>
+                                </div>
+                                <div class="canvas-toolbar">
+                                    <div class="tool-group">
+                                        <span class="toolbar-label">Yazım Alanı (Kalem)</span>
+                                    </div>
+                                    <div class="tool-group">
+                                        <button class="action-btn btn-secondary" id="test-canvas-undo" title="Son Çizgiyi Geri Al">
+                                            <i class="fa-solid fa-rotate-left"></i> Geri Al
+                                        </button>
+                                        <button class="action-btn btn-danger" id="test-canvas-clear" title="Tahtayı Temizle">
+                                            <i class="fa-solid fa-trash-can"></i> Temizle
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="main-footer">
+                <div class="footer-left">
+                    <p>&copy; 2026 LingoStudy - Tüm hakları saklıdır.</p>
+                </div>
+                <div class="footer-right">
+                    <p class="developer-signature">Geliştirici: <strong>Dr. Bahadır Murat ÇAKMAKLI</strong></p>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- 1. Add Category Modal -->
+    <div class="modal" id="modal-add-category">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-folder-plus"></i> Yeni Konuşma Kategorisi Ekle</h3>
+                <button class="modal-close" data-modal="modal-add-category">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="new-category-name">Kategori Adı (Örn: Sinema, Giyim Alışverişi):</label>
+                    <input type="text" id="new-category-name" placeholder="Kategori ismini girin..." required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-secondary" data-modal="modal-add-category">Vazgeç</button>
+                <button class="action-btn text-speech-btn" id="save-category-btn">Kategoriyi Kaydet</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Add Phrase Modal -->
+    <div class="modal" id="modal-add-phrase">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-comment-medical"></i> Kategoriye Yeni Kart Ekle</h3>
+                <button class="modal-close" data-modal="modal-add-phrase">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Dil:</label>
+                    <div class="custom-radio-group" id="new-phrase-lang-group">
+                        <button class="radio-btn active" data-val="hebrew">İbranice</button>
+                        <button class="radio-btn" data-val="japanese">Japonca</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="new-phrase-original">Orijinal Metin (İbranice / Japonca):</label>
+                    <input type="text" id="new-phrase-original" placeholder="Örn: こんにちは / שלום" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-phrase-trans">Türkçe Okunuşu (Transkripsiyon):</label>
+                    <input type="text" id="new-phrase-trans" placeholder="Örn: Konniçiwa / Şalom" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-phrase-meaning">Türkçe Anlamı:</label>
+                    <input type="text" id="new-phrase-meaning" placeholder="Örn: Merhaba" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn btn-secondary" data-modal="modal-add-phrase">Vazgeç</button>
+                <button class="action-btn text-speech-btn" id="save-phrase-btn">Kartı Ekle</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="app.js"></script>
+</body>
+</html>
