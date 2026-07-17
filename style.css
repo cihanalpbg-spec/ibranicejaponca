@@ -363,11 +363,11 @@ body {
     background-color: var(--bg-card-hover);
 }
 
-/* 1. WRITING TAB LAYOUT */
+/* 1. WRITING TAB LAYOUT (UPDATED) */
 .writing-layout {
     display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 32px;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
     height: 100%;
     min-height: 500px;
 }
@@ -375,7 +375,112 @@ body {
 .ref-panel {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 16px;
+}
+
+/* ALFABE TABLOSU TAB LAYOUT */
+.alphabet-list-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.alphabet-chart-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+    max-height: calc(100vh - var(--header-height) - var(--footer-height) - 80px);
+    padding-bottom: 20px;
+    padding-right: 4px;
+}
+
+.alphabet-card {
+    background-color: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease-out;
+}
+
+.alphabet-card:hover {
+    border-color: var(--border-color-hover);
+    background-color: var(--bg-card-hover);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.15);
+}
+
+.alphabet-card-symbols {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 80px;
+}
+
+.alphabet-card-symbol {
+    font-size: 48px;
+    font-weight: 700;
+    color: #fff;
+    font-family: var(--font-he), var(--font-ja);
+}
+
+.alphabet-card-symbol-svg {
+    width: 50px;
+    height: 50px;
+}
+
+.alphabet-card-symbol-svg path {
+    fill: none;
+    stroke: var(--text-main);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.alphabet-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 100%;
+}
+
+.alphabet-card-name {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #fff;
+}
+
+.alphabet-card-trans {
+    font-size: 12px;
+    color: var(--primary-light);
+    font-weight: 500;
+}
+
+.alphabet-card-val {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+.alphabet-card-actions {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.alphabet-card-actions button {
+    flex: 1;
 }
 
 .ref-card {

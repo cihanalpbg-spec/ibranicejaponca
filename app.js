@@ -339,8 +339,12 @@ function initializeTabs() {
             
             // Set header title
             switch(targetTab) {
+                case 'tab-alphabet-list':
+                    sectionTitle.textContent = "Alfabe Tanıtım & Tablosu";
+                    renderAlphabetListTab();
+                    break;
                 case 'tab-writing':
-                    sectionTitle.textContent = "Alfabe Çalışma Alanı";
+                    sectionTitle.textContent = "Yazım Egzersizi";
                     resizeCanvas(writingCanvas, canvasContext);
                     redrawCanvasGrid();
                     loadWritingLetter();
@@ -457,35 +461,111 @@ function renderSubLanguageOptions() {
 }
 
 function loadActiveAlphabetInViews() {
-    // Render Quick Selection grid in Writing panel
+    // Render Quick Selection grid in Writing panel (safely check if exists)
     const grid = document.getElementById('write-letter-grid');
-    grid.innerHTML = '';
-    
-    const list = getActiveAlphabetList();
-    
-    list.forEach((item, index) => {
-        const cell = document.createElement('div');
-        cell.className = `grid-item ${state.currentLanguage}-grid-item ${state.writeIndex === index ? 'active' : ''}`;
-        
-        const displayChar = item.print;
-        cell.innerHTML = `
-            <span>${displayChar}</span>
-            <span class="sub-lbl">${item.name}</span>
-        `;
-        
-        cell.addEventListener('click', () => {
-            state.writeIndex = index;
-            document.querySelectorAll('.grid-item').forEach(c => c.classList.remove('active'));
-            cell.classList.add('active');
-            loadWritingLetter();
-            speakText(item.print, getSpeakLangCode()); // Play pronunciation automatically when clicked
+    if (grid) {
+        grid.innerHTML = '';
+        const list = getActiveAlphabetList();
+        list.forEach((item, index) => {
+            const cell = document.createElement('div');
+            cell.className = `grid-item ${state.currentLanguage}-grid-item ${state.writeIndex === index ? 'active' : ''}`;
+            const displayChar = item.print;
+            cell.innerHTML = `
+                <span>${displayChar}</span>
+                <span class="sub-lbl">${item.name}</span>
+            `;
+            cell.addEventListener('click', () => {
+                state.writeIndex = index;
+                document.querySelectorAll('.grid-item').forEach(c => c.classList.remove('active'));
+                cell.classList.add('active');
+                loadWritingLetter();
+                speakText(item.print, getSpeakLangCode());
+            });
+            grid.appendChild(cell);
         });
-        
-        grid.appendChild(cell);
-    });
+    }
+    
+    // Always render the new full alphabet list chart tab
+    renderAlphabetListTab();
     
     // Load current letter
     loadWritingLetter();
+}
+
+function renderAlphabetListTab() {
+    const wrapper = document.getElementById('alphabet-chart-grid-wrapper');
+    if (!wrapper) return;
+    
+    wrapper.innerHTML = '';
+    const list = getActiveAlphabetList();
+    
+    list.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'alphabet-card glass-card';
+        
+        let symbolsHTML = '';
+        if (state.currentLanguage === 'hebrew') {
+            symbolsHTML = `
+                <div class="alphabet-card-symbols">
+                    <span class="alphabet-card-symbol" style="font-family: var(--font-he);">${item.print}</span>
+                    <svg class="alphabet-card-symbol-svg" viewBox="0 0 100 100">
+                        <path d="${item.cursive}"></path>
+                    </svg>
+                </div>
+            `;
+        } else {
+            symbolsHTML = `
+                <div class="alphabet-card-symbols">
+                    <span class="alphabet-card-symbol" style="font-family: var(--font-ja); font-size: 56px;">${item.print}</span>
+                </div>
+            `;
+        }
+        
+        const gematriaHTML = state.currentLanguage === 'hebrew' 
+            ? `<span class="alphabet-card-val">Sayısal Değer: <strong>${item.value}</strong></span>` 
+            : '';
+            
+        card.innerHTML = `
+            ${symbolsHTML}
+            <div class="alphabet-card-info">
+                <span class="alphabet-card-name">${item.name}</span>
+                <span class="alphabet-card-trans">Okunuşu: ${item.trans || item.name}</span>
+                ${gematriaHTML}
+            </div>
+            <div class="alphabet-card-actions">
+                <button class="action-btn btn-secondary btn-small speak-btn" title="Seslendir">
+                    <i class="fa-solid fa-volume-high"></i> Dinle
+                </button>
+                <button class="action-btn text-speech-btn btn-small practice-btn" title="Yazım Tahtasında Çalış">
+                    <i class="fa-solid fa-chalkboard"></i> Yaz
+                </button>
+            </div>
+        `;
+        
+        // Event Listeners
+        card.querySelector('.speak-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            speakText(item.print, getSpeakLangCode());
+        });
+        
+        card.querySelector('.practice-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Select this letter and redirect to writing tab
+            state.writeIndex = index;
+            
+            // Trigger tab navigation to Writing Canvas
+            const navBtn = document.querySelector('.nav-btn[data-tab="tab-writing"]');
+            if (navBtn) {
+                navBtn.click();
+            }
+        });
+        
+        card.addEventListener('click', () => {
+            speakText(item.print, getSpeakLangCode());
+        });
+        
+        wrapper.appendChild(card);
+    });
 }
 
 // --- TAB 1: BLACKBOARD WRITING AREA ---

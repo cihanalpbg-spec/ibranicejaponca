@@ -35,9 +35,13 @@
             </div>
             
             <nav class="sidebar-nav">
-                <button class="nav-btn active" data-tab="tab-writing">
+                <button class="nav-btn active" data-tab="tab-alphabet-list">
+                    <i class="fa-solid fa-table-cells"></i>
+                    <span>Alfabe Tablosu</span>
+                </button>
+                <button class="nav-btn" data-tab="tab-writing">
                     <i class="fa-solid fa-chalkboard"></i>
-                    <span>Alfabe Çalışma</span>
+                    <span>Yazım Egzersizi</span>
                 </button>
                 <button class="nav-btn" data-tab="tab-flashcards">
                     <i class="fa-solid fa-clone"></i>
@@ -95,8 +99,17 @@
             <!-- Tab Content Screens -->
             <div class="workspace">
 
+                <!-- 0. ALFABE TANITIM VE TABLO ALANI -->
+                <section id="tab-alphabet-list" class="tab-screen active">
+                    <div class="alphabet-list-layout">
+                        <div class="alphabet-chart-grid" id="alphabet-chart-grid-wrapper">
+                            <!-- Dynamically loaded alphabet chart cards -->
+                        </div>
+                    </div>
+                </section>
+
                 <!-- 1. ALFABE YAZMA ÇALIŞMA ALANI -->
-                <section id="tab-writing" class="tab-screen active">
+                <section id="tab-writing" class="tab-screen">
                     <div class="writing-layout">
                         <!-- Left Panel: Reference Card -->
                         <div class="ref-panel">
@@ -130,14 +143,6 @@
                                 <div class="ref-navigator">
                                     <button class="nav-arrow-btn" id="write-prev-btn"><i class="fa-solid fa-chevron-left"></i> Önceki</button>
                                     <button class="nav-arrow-btn" id="write-next-btn">Sonraki <i class="fa-solid fa-chevron-right"></i></button>
-                                </div>
-                            </div>
-
-                            <!-- Alphabet Quick Select Grid -->
-                            <div class="glass-card grid-card">
-                                <h3>Karakter Seçimi</h3>
-                                <div class="letter-grid" id="write-letter-grid">
-                                    <!-- Dynamic character grid -->
                                 </div>
                             </div>
                         </div>
